@@ -122,22 +122,26 @@ points(df.train.1$x1, df.train.1$x2,
 
 # матрица неточностей на обучающей выборке
 tbl <- table(y.train, y.nb.train)
+message(paste0('Матрица неточностей на обучающей выборке:'))
 tbl
 
 # точность, или верность (Accuracy)
 Acc <- sum(diag(tbl)) / sum(tbl)
-Acc
+message(paste0('Точность = ', 
+                 round(Acc, 3), '.'))
 
 # прогноз на тестовую выборку
 y.nb.test <- ifelse(predict(nb, df.test.1, type = "raw")[, 2] > 0.5, 1, 0)
 
 # матрица неточностей на тестовой выборке
 tbl <- table(y.test, y.nb.test)
+message(paste0('Матрица неточностей на тестовой выборке:'))
 tbl
 
 # точность, или верность (Accuracy)
 Acc <- sum(diag(tbl)) / sum(tbl)
-Acc
+message(paste0('Точность = ', 
+                 round(Acc, 3), '.'))
 
 # Метод kNN --------------------------------------------------------------------
 #  k = 3
@@ -159,11 +163,13 @@ points(df.train.1$x1, df.train.1$x2,
 
 # матрица неточностей на обучающей выборке
 tbl <- table(y.train, y.knn.train)
+message(paste0('Матрица неточностей на обучающей выборке:'))
 tbl
 
 # точность (Accuracy)
 Acc <- sum(diag(tbl)) / sum(tbl)
-Acc
+message(paste0('Точность = ', 
+                 round(Acc, 3), '.'))
 
 # прогноз на тестовую выборку
 y.knn.test <- knn(train = scale(df.train.1[, -3]), 
@@ -172,30 +178,41 @@ y.knn.test <- knn(train = scale(df.train.1[, -3]),
 
 # матрица неточностей на тестовой выборке
 tbl <- table(y.test, y.knn.test)
+message(paste0('Матрица неточностей на тестовой выборке:'))
 tbl
 
 # точность (Accuracy)
 Acc <- sum(diag(tbl)) / sum(tbl)
-Acc
+message(paste0('Точность = ', 
+                 round(Acc, 3), '.'))
 
 # задача 2
 
 TRP <- tbl[2, 2] / (tbl[2, 2] + tbl[2, 1])
-TRP
+message(paste0('Чувствтельность ', 
+                 round(TRP, 3), '.'))
+
 SPC <- tbl[1, 1] / (tbl[1, 1] + tbl[1, 2])
-SPC
+message(paste0('Специфичность ', 
+                 round(SPC, 3), '.'))
 PPV <- tbl[2, 2] / (tbl[2, 2] + tbl[1, 2])
-PPV
+message(paste0('Ценность положительного прогноза ', 
+                 round(PPV, 3), '.'))
 NPV <- tbl[1, 1] / (tbl[1, 1] + tbl[1, 2])
-NPV
+message(paste0('Ценность отрицательного прогноза ', 
+                 round(NPV, 3), '.'))
 FNR <- 1 - TRP
-FNR
+message(paste0('Доля ложноотрицательных исходов ', 
+                 round(FNR, 3), '.'))
 FPR <- 1 - SPC
-FPR
+message(paste0('Доля ложноположительных исходов ', 
+                 round(FPR, 3), '.'))
 FDR <- 1 - PPV
-FDR
+message(paste0('Доля ложного обнаружения ', 
+                 round(FDR, 3), '.'))
 MCC <- (tbl[1, 1] * tbl[2, 2] - tbl[1, 2] * tbl[2, 1]) / sqrt((tbl[1, 2] + tbl[2, 2]) * sum(tbl[2,])*sum(tbl[1,])*(tbl[1, 1] + tbl[2, 1]))
-MCC
+message(paste0('Корреляция Мэтьюса ', 
+                 round(MCC, 3), '.'))
 ```
 
 В данном примере метод knn показывает более высокую точность, т.к. наивный байес делит пространство точек (наблюдений) на непересекающиеся области и не учитывает, что наблюдения из разных классов могут быть перемешаны.
